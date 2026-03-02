@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Coffee, MapPin, Mail, Clock, Phone, Menu, X, Flame, Heart, Instagram, Twitter, Facebook, Star } from 'lucide-react';
 import { motion, useInView } from 'motion/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 /* ──────────────────────────────────────────────────────────────
    Custom Cursor
@@ -883,6 +884,7 @@ export default function App() {
         {view === 'owner' && <OwnerPortal />}
       </main>
       {view !== 'owner' && <Footer />}
+      <SpeedInsights />
     </div>
   );
 }
