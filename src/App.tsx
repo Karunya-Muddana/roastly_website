@@ -284,7 +284,7 @@ const Hero = ({ setView }: { setView: (v: 'home' | 'menu') => void }) => {
 
         {/* Cup — ENLARGED to overlap the title */}
         <div className="relative w-full flex justify-center items-center -mt-14 md:-mt-36 z-10 mb-0">
-          <div className="relative w-[340px] h-[340px] md:w-[680px] md:h-[680px] flex justify-center items-center">
+          <div className="relative w-[300px] h-[300px] sm:w-[340px] sm:h-[340px] md:w-[680px] md:h-[680px] flex justify-center items-center">
 
             {/* Warm radial glow */}
             <motion.div
@@ -862,7 +862,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative overflow-x-hidden">
       <CustomCursor />
       {view !== 'owner' && <Navigation view={view} setView={setView} />}
       <main>

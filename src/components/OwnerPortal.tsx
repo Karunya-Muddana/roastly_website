@@ -150,7 +150,12 @@ export default function OwnerPortal() {
             if (el && !scannerRef.current) {
                 const scanner = new Html5QrcodeScanner(
                     "qr-reader",
-                    { fps: 10, qrbox: { width: 250, height: 250 }, formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE] },
+                    {
+                        fps: 10,
+                        qrbox: { width: 250, height: 250 },
+                        formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+                        videoConstraints: { facingMode: "environment" }
+                    },
                     false
                 );
 
@@ -225,7 +230,7 @@ export default function OwnerPortal() {
     }
 
     return (
-        <div className="min-h-screen h-screen bg-[#F9F7F5] flex flex-col font-sans overflow-hidden">
+        <div className="min-h-[100dvh] md:h-screen bg-[#F9F7F5] flex flex-col font-sans md:overflow-hidden">
             {/* Topbar */}
             <header className="h-[72px] bg-white border-b border-gray-200 px-6 flex items-center justify-between shrink-0 z-20 shadow-sm">
                 <div className="flex items-center gap-3">
@@ -242,10 +247,10 @@ export default function OwnerPortal() {
                 </button>
             </header>
 
-            <div className="flex-1 flex overflow-hidden">
+            <div className="flex-1 flex flex-col-reverse md:flex-row md:overflow-hidden">
 
                 {/* Left Panel: Feed */}
-                <aside className="w-[380px] bg-white border-r border-gray-200 flex flex-col z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)] relative">
+                <aside className="w-full md:w-[380px] h-[500px] md:h-auto bg-white border-t md:border-t-0 md:border-r border-gray-200 flex flex-col z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)] relative shrink-0">
                     <div className="p-6 pb-4 border-b border-gray-100">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-[20px] font-display font-bold text-gray-900">Live Feed</h2>
@@ -293,7 +298,7 @@ export default function OwnerPortal() {
                 </aside>
 
                 {/* Right Panel: Content Area */}
-                <main className="flex-1 flex flex-col bg-[#F9F7F5] relative overflow-hidden">
+                <main className="flex-1 flex flex-col bg-[#F9F7F5] relative shrink-0 min-h-[400px] md:min-h-0 md:overflow-hidden">
 
                     {/* Error Toast */}
                     <AnimatePresence>
@@ -348,13 +353,13 @@ export default function OwnerPortal() {
 
                         {/* Scanner Full-Frame */}
                         {isScanning && (
-                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="absolute inset-8 bg-black rounded-3xl shadow-2xl flex flex-col overflow-hidden">
-                                <div className="bg-white/10 backdrop-blur-md p-6 flex justify-between items-center z-10">
-                                    <h3 className="font-display font-medium text-xl text-white flex items-center gap-3"><Camera /> Point camera at QR</h3>
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="absolute inset-4 md:inset-8 bg-black rounded-3xl shadow-2xl flex flex-col overflow-hidden z-20">
+                                <div className="bg-white/10 backdrop-blur-md p-4 md:p-6 flex justify-between items-center z-10 shrink-0">
+                                    <h3 className="font-display font-medium text-lg md:text-xl text-white flex items-center gap-3"><Camera size={20} /> Point camera at QR</h3>
                                     <button onClick={stopScanner} className="text-white hover:bg-white/20 p-2 rounded-full transition-colors"><X size={24} /></button>
                                 </div>
-                                <div className="flex-1 bg-black relative flex items-center justify-center">
-                                    <div id="qr-reader" className="w-full max-w-2xl" />
+                                <div className="flex-1 bg-black relative flex items-center justify-center overflow-hidden">
+                                    <div id="qr-reader" className="w-full max-w-2xl h-full [&_video]:object-cover" />
                                 </div>
                             </motion.div>
                         )}
