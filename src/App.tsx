@@ -830,8 +830,9 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[13px] font-sans text-[var(--color-bg-primary)]/40">
-            © {new Date().getFullYear()} Roastly Cafe. All rights reserved.
+          <p className="text-[13px] font-sans text-[var(--color-bg-primary)]/40 flex items-center gap-4">
+            <span>© {new Date().getFullYear()} Roastly Cafe. All rights reserved.</span>
+            <button onClick={() => window.dispatchEvent(new CustomEvent('NAV_OWNER'))} className="hover:text-white transition-colors cursor-pointer border-l border-white/20 pl-4">Staff Portal</button>
           </p>
           <p className="text-[15px] font-handwritten text-[var(--color-bg-primary)]/60 flex items-center gap-1.5">
             Handcrafted with <Coffee size={14} className="text-[var(--color-accent)] mx-0.5" /> &amp; love
@@ -846,16 +847,26 @@ const Footer = () => {
    App Shell
    ────────────────────────────────────────────────────────────── */
 import FullMenu from './components/FullMenu';
+import OwnerPortal from './components/OwnerPortal';
 
 export default function App() {
-  const [view, setView] = useState<'home' | 'menu'>('home');
+  const [view, setView] = useState<'home' | 'menu' | 'owner'>('home');
+
+  useEffect(() => {
+    const handleNav = () => {
+      setView('owner');
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('NAV_OWNER', handleNav);
+    return () => window.removeEventListener('NAV_OWNER', handleNav);
+  }, []);
 
   return (
     <div className="min-h-screen relative">
       <CustomCursor />
       <Navigation view={view} setView={setView} />
       <main>
-        {view === 'home' ? (
+        {view === 'home' && (
           <>
             <Hero setView={setView} />
             <WhyUs />
@@ -867,9 +878,9 @@ export default function App() {
             <WavyDivider />
             <Contact />
           </>
-        ) : (
-          <FullMenu />
         )}
+        {view === 'menu' && <FullMenu />}
+        {view === 'owner' && <OwnerPortal />}
       </main>
       <Footer />
     </div>
